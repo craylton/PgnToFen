@@ -10,22 +10,8 @@ namespace PgnToFen
 
         public ArgumentParser(string[] args)
         {
-            for (int i = 0; i < args.Length; i++)
-            {
-                if (IsSourceFilenameFlag(args[i]))
-                {
-                    SourceFilename = args[i + 1];
-                    i++;
-                    continue;
-                }
-
-                if (IsNewFilenameFlag(args[i]))
-                {
-                    NewFilename = args[i + 1];
-                    i++;
-                    continue;
-                }
-            }
+            SourceFilename = GetSourceFilenameFromArgumentList(args);
+            NewFilename = GetNewFilenameFromArgumentList(args);
 
             if (SourceFilename != null && NewFilename is null)
             {
@@ -34,9 +20,6 @@ namespace PgnToFen
         }
 
         public void DeleteExistingNewFile() => File.Delete(NewFilename);
-
-        private string GetDefaultFenFileName(string sourceFilename) =>
-            sourceFilename.ReplaceFileExtension("txt");
 
         public bool NewFilenameAlreadyExists() => File.Exists(NewFilename);
 
@@ -63,12 +46,35 @@ namespace PgnToFen
             Console.WriteLine($"{NewFilename} already exists - do you want to overwrite? (y/n)");
 
             string shouldOverwrite = string.Empty;
-            while (shouldOverwrite != "y" && shouldOverwrite != "n")
+
+            while (shouldOverwrite.IsYesResponse() && shouldOverwrite.IsNoResponse())
             {
                 shouldOverwrite = Console.ReadLine();
             }
 
-            return shouldOverwrite == "y";
+            return shouldOverwrite.IsYesResponse();
+        }
+
+        private string GetDefaultFenFileName(string sourceFilename) =>
+            sourceFilename.ReplaceFileExtension("txt");
+
+        private string GetNewFilenameFromArgumentList(string[] args) =>
+            GetArgumentAfterMatch(args, arg => IsNewFilenameFlag(arg));
+
+        private string GetSourceFilenameFromArgumentList(string[] args) =>
+            GetArgumentAfterMatch(args, arg => IsSourceFilenameFlag(arg));
+
+        private string GetArgumentAfterMatch(string[] args, Func<string, bool> predicate)
+        {
+            for (int i = 0; i < args.Length - 1; i++)
+            {
+                if (predicate(args[i]))
+                {
+                    return args[i + 1];
+                }
+            }
+
+            return null;
         }
 
         private bool IsSourceFilenameFlag(string argument) =>
