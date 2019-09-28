@@ -1,7 +1,4 @@
-﻿using ilf.pgn;
-using ilf.pgn.Data;
-
-namespace PgnToFen
+﻿namespace PgnToFen
 {
     public class Program
     {
@@ -12,15 +9,8 @@ namespace PgnToFen
                 return;
             }
 
-            var fenSaver = new FenSaver(parsedArgs.NewFilename);
-            var pgnFileReader = new PgnReader();
-            Database gameDb = pgnFileReader.ReadFromFile(parsedArgs.SourceFilename);
-
-            foreach (var game in gameDb.Games)
-            {
-                GameData gameData = GameData.FromGame(game);
-                fenSaver.SaveAllFens(gameData);
-            }
+            var converter = new PgnToFenConverter();
+            converter.Convert(parsedArgs);
         }
     }
 }
