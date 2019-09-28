@@ -5,35 +5,58 @@ namespace PgnToFen
 {
     public class ArgumentParser
     {
-        public string SourceFilename { get; private set; }
-        public string NewFilename { get; private set; }
+        public ParsedArguments ParsedArguments { get; private set; }
 
-        public ArgumentParser(string[] args)
+        private ArgumentParser(string[] args)
         {
-            SourceFilename = GetSourceFilenameFromArgumentList(args);
-            NewFilename = GetNewFilenameFromArgumentList(args);
+            var sourceFilename = GetSourceFilenameFromArgumentList(args);
+            var newFilename = GetNewFilenameFromArgumentList(args);
 
-            if (SourceFilename != null && NewFilename is null)
+            if (sourceFilename != null && newFilename is null)
             {
-                NewFilename = GetDefaultFenFileName(SourceFilename);
+                newFilename = GetDefaultFenFileName(sourceFilename);
             }
+
+            ParsedArguments = new ParsedArguments(sourceFilename, newFilename);
         }
 
-        public void DeleteExistingNewFile() => File.Delete(NewFilename);
-
-        public bool NewFilenameAlreadyExists() => File.Exists(NewFilename);
-
-        public bool IsSourceFilenameValid()
+        public static bool TryParseArguments(string[] args, out ParsedArguments parsedArgs)
         {
-            if (SourceFilename is null)
+            var argsParser = new ArgumentParser(args);
+            parsedArgs = argsParser.ParsedArguments;
+
+            if (!argsParser.IsSourceFilenameValid(argsParser.ParsedArguments.SourceFilename))
+            {
+                return false;
+            }
+
+            if (File.Exists(argsParser.ParsedArguments.NewFilename))
+            {
+                if (argsParser.ShouldOverwriteNewFile(argsParser.ParsedArguments.NewFilename))
+                {
+                    File.Delete(argsParser.ParsedArguments.NewFilename);
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        private bool IsSourceFilenameValid(string filename)
+        {
+            if (filename is null)
             {
                 Console.WriteLine("Please specify the filename of the PGN file with the --pgnfile flag.");
                 return false;
             }
 
-            if (!File.Exists(SourceFilename))
+            if (!File.Exists(filename))
             {
-                Console.WriteLine($"The file {SourceFilename} could not be found");
+                Console.WriteLine($"The file {filename} could not be found");
                 Console.WriteLine("Please specify the filename of the PGN file with the --pgnfile flag.");
                 return false;
             }
@@ -41,9 +64,9 @@ namespace PgnToFen
             return true;
         }
 
-        public bool ShouldOverwriteNewFile()
+        private bool ShouldOverwriteNewFile(string filename)
         {
-            Console.WriteLine($"{NewFilename} already exists - do you want to overwrite? (y/n)");
+            Console.WriteLine($"{filename} already exists - do you want to overwrite? (y/n)");
 
             string shouldOverwrite = string.Empty;
 
