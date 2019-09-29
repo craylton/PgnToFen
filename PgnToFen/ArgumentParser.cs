@@ -1,109 +1,56 @@
-﻿using System;
-using System.IO;
+﻿using NDesk.Options;
+using System;
 
 namespace PgnToFen
 {
     public class ArgumentParser
     {
-        public ParsedArguments ParsedArguments { get; private set; }
+        private readonly OptionSet parser;
 
-        private ArgumentParser(string[] args)
+        public string[] RawArgs { get; }
+        public ParsedArguments ParsedArguments { get; }
+
+        public ArgumentParser(string[] args)
         {
-            var sourceFilename = GetSourceFilenameFromArgumentList(args);
-            var newFilename = GetNewFilenameFromArgumentList(args);
+            RawArgs = args;
+            ParsedArguments = new ParsedArguments();
 
-            if (sourceFilename != null && newFilename is null)
+            parser = new OptionSet()
             {
-                newFilename = GetDefaultFenFileName(sourceFilename);
-            }
-
-            ParsedArguments = new ParsedArguments(sourceFilename, newFilename);
+                {
+                    "p|pgnfile=",
+                    "the filename of the {PGNFILE} to load.",
+                    filename => ParsedArguments.SourceFilename = filename
+                },
+                {
+                    "o|output=",
+                    "the filename of the {OUTPUT} file.",
+                    filename => ParsedArguments.NewFilename = filename
+                }
+            };
         }
 
-        public static bool TryParseArguments(string[] args, out ParsedArguments parsedArgs)
+        public bool CanParseArguments()
         {
-            var argsParser = new ArgumentParser(args);
-            parsedArgs = argsParser.ParsedArguments;
-
-            if (!argsParser.IsSourceFilenameValid(argsParser.ParsedArguments.SourceFilename))
+            try
             {
+                parser.Parse(RawArgs);
+            }
+            catch (OptionException e)
+            {
+                Console.Write("There was a problem parsing arguments: ");
+                Console.WriteLine(e.Message);
+                Console.WriteLine("Try '--help' for more information.");
                 return false;
             }
 
-            if (File.Exists(argsParser.ParsedArguments.NewFilename))
+            if (ParsedArguments.SourceFilename is null)
             {
-                if (argsParser.ShouldOverwriteNewFile(argsParser.ParsedArguments.NewFilename))
-                {
-                    File.Delete(argsParser.ParsedArguments.NewFilename);
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
-            }
-
-            return true;
-        }
-
-        private bool IsSourceFilenameValid(string filename)
-        {
-            if (filename is null)
-            {
-                Console.WriteLine("Please specify the filename of the PGN file with the --pgnfile flag.");
-                return false;
-            }
-
-            if (!File.Exists(filename))
-            {
-                Console.WriteLine($"The file {filename} could not be found");
                 Console.WriteLine("Please specify the filename of the PGN file with the --pgnfile flag.");
                 return false;
             }
 
             return true;
         }
-
-        private bool ShouldOverwriteNewFile(string filename)
-        {
-            Console.WriteLine($"{filename} already exists - do you want to overwrite? (y/n)");
-
-            string shouldOverwrite = string.Empty;
-
-            while (shouldOverwrite.IsYesResponse() && shouldOverwrite.IsNoResponse())
-            {
-                shouldOverwrite = Console.ReadLine();
-            }
-
-            return shouldOverwrite.IsYesResponse();
-        }
-
-        private string GetDefaultFenFileName(string sourceFilename) =>
-            sourceFilename.ReplaceFileExtension("txt");
-
-        private string GetNewFilenameFromArgumentList(string[] args) =>
-            GetArgumentAfterMatch(args, arg => IsNewFilenameFlag(arg));
-
-        private string GetSourceFilenameFromArgumentList(string[] args) =>
-            GetArgumentAfterMatch(args, arg => IsSourceFilenameFlag(arg));
-
-        private string GetArgumentAfterMatch(string[] args, Func<string, bool> predicate)
-        {
-            for (int i = 0; i < args.Length - 1; i++)
-            {
-                if (predicate(args[i]))
-                {
-                    return args[i + 1];
-                }
-            }
-
-            return null;
-        }
-
-        private bool IsSourceFilenameFlag(string argument) =>
-            argument == "-p" || argument == "--pgnfile";
-
-        private bool IsNewFilenameFlag(string argument) =>
-            argument == "-o" || argument == "--outputfile";
     }
 }

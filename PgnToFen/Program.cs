@@ -4,13 +4,27 @@
     {
         private static void Main(string[] args)
         {
-            if (!ArgumentParser.TryParseArguments(args, out ParsedArguments parsedArgs))
+            var parser = new ArgumentParser(args);
+            var fileCoordinator = new FileCoordinator();
+
+            if (!parser.CanParseArguments())
             {
                 return;
             }
 
+            try
+            {
+                fileCoordinator.PrepareFiles(parser.ParsedArguments);
+            }
+            catch (InvalidArgsException ex)
+            {
+                System.Console.WriteLine("There was a problem preparing files:");
+                System.Console.WriteLine(ex.Message);
+                return;
+            }
+
             var converter = new PgnToFenConverter();
-            converter.Convert(parsedArgs);
+            converter.Convert(parser.ParsedArguments);
         }
     }
 }

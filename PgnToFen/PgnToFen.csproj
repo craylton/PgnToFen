@@ -36,6 +36,9 @@
     <Reference Include="ChessDotNet, Version=0.11.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\ChessDotNet.0.11.0\lib\netstandard1.3\ChessDotNet.dll</HintPath>
     </Reference>
+    <Reference Include="NDesk.Options, Version=0.2.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\NDesk.Options.0.2.1\lib\NDesk.Options.dll</HintPath>
+    </Reference>
     <Reference Include="pgn.net, Version=1.2.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\pgn.net.1.2.1\lib\net45\pgn.net.dll</HintPath>
     </Reference>
@@ -51,11 +54,13 @@
   <ItemGroup>
     <Compile Include="ArgumentParser.cs" />
     <Compile Include="FenSaver.cs" />
+    <Compile Include="FileCoordinator.cs" />
     <Compile Include="GameData.cs" />
     <Compile Include="GameExtensions.cs" />
     <Compile Include="GameResultExtensions.cs" />
     <Compile Include="IEnumerableExtensions.cs" />
     <Compile Include="Int32Extensions.cs" />
+    <Compile Include="InvalidArgsException.cs" />
     <Compile Include="ParsedArguments.cs" />
     <Compile Include="PgnToFenConverter.cs" />
     <Compile Include="Program.cs" />
