@@ -1,0 +1,12 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\pgn.Data\pgn.Data.csproj" />
+    <ProjectReference Include="..\pgn.Parse\pgn.Parse.fsproj" />
+  </ItemGroup>
+
+</Project>
