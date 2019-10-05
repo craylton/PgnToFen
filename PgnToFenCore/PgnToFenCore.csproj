@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.0</TargetFramework>
@@ -9,8 +9,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\pgn.Data\pgn.Data.csproj" />
-    <ProjectReference Include="..\pgn.NET\pgn.NET.csproj" />
+    <ProjectReference Include="..\ilf.pgn\pgn.Data\pgn.Data.csproj" />
+    <ProjectReference Include="..\ilf.pgn\pgn.NET\pgn.NET.csproj" />
   </ItemGroup>
 
 </Project>

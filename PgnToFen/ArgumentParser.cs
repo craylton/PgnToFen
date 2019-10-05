@@ -1,5 +1,4 @@
 ﻿using NDesk.Options;
-using PgnToFenCore;
 using System;
 
 namespace PgnToFen

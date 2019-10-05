@@ -26,7 +26,8 @@ namespace PgnToFen
             }
 
             var converter = new PgnToFenConverter();
-            converter.Convert(parser.ParsedArguments);
+            var conversionStrategy = new SaveToFileStrategy(parser.ParsedArguments.NewFilename);
+            converter.Convert(conversionStrategy, parser.ParsedArguments.SourceFilename);
         }
     }
 }

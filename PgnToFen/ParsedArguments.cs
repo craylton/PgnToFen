@@ -1,4 +1,4 @@
-﻿namespace PgnToFenCore
+﻿namespace PgnToFen
 {
     public class ParsedArguments
     {

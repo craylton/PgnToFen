@@ -5,16 +5,14 @@ namespace PgnToFenCore
 {
     public class PgnToFenConverter
     {
-        public void Convert(ParsedArguments parsedArgs)
+        public void Convert(IConversionStrategy strategy, string pgnFilename)
         {
-            var fenSaver = new FenSaver(parsedArgs.NewFilename);
             var pgnFileReader = new PgnReader();
-            Database gameDb = pgnFileReader.ReadFromFile(parsedArgs.SourceFilename);
+            Database gameDb = pgnFileReader.ReadFromFile(pgnFilename);
 
             foreach (var game in gameDb.Games)
             {
-                GameData gameData = GameData.FromGame(game);
-                fenSaver.SaveAllFens(gameData);
+                strategy.ConvertAllFens(game);
             }
         }
     }
