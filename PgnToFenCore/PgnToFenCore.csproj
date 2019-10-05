@@ -1,16 +1,16 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp3.0</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="NDesk.Options.Core" Version="1.2.5" />
+    <PackageReference Include="ChessDotNet" Version="0.11.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\PgnToFenCore\PgnToFenCore.csproj" />
+    <ProjectReference Include="..\pgn.Data\pgn.Data.csproj" />
+    <ProjectReference Include="..\pgn.NET\pgn.NET.csproj" />
   </ItemGroup>
 
 </Project>
