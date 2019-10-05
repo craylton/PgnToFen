@@ -1,9 +1,9 @@
 ﻿using ChessDotNet;
 using System.IO;
 
-namespace PgnToFen
+namespace PgnToFenCore
 {
-    public class FenSaver
+    internal class FenSaver
     {
         public string Filename { get; }
 
@@ -13,10 +13,8 @@ namespace PgnToFen
         {
             var newGame = new ChessGame();
 
-            using (var file = new StreamWriter(Filename, true))
-            {
-                SaveAllFensToStream(gameData, newGame, file);
-            }
+            using var file = new StreamWriter(Filename, true);
+            SaveAllFensToStream(gameData, newGame, file);
         }
 
         private void SaveAllFensToStream(GameData gameData, ChessGame game, StreamWriter stream)

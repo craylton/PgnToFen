@@ -4,14 +4,14 @@ using System.Collections.Generic;
 
 using ChessMove = ChessDotNet.Move;
 
-namespace PgnToFen
+namespace PgnToFenCore
 {
-    public class GameData
+    internal class GameData
     {
         public int Result { get; }
         public IEnumerable<ChessMove> Moves { get; }
 
-        private GameData(int result, IEnumerable<ChessMove> moves) => 
+        private GameData(int result, IEnumerable<ChessMove> moves) =>
             (Result, Moves) = (result, moves);
 
         public static GameData FromGame(Game game)

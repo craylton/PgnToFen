@@ -1,9 +1,10 @@
-﻿using System;
+﻿using PgnToFenCore;
+using System;
 using System.IO;
 
 namespace PgnToFen
 {
-    class FileCoordinator
+    public class FileCoordinator
     {
         public void PrepareFiles(ParsedArguments parsedArguments)
         {

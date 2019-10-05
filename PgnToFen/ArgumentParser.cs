@@ -1,9 +1,10 @@
 ﻿using NDesk.Options;
+using PgnToFenCore;
 using System;
 
 namespace PgnToFen
 {
-    public class ArgumentParser
+    internal class ArgumentParser
     {
         private readonly OptionSet parser;
 

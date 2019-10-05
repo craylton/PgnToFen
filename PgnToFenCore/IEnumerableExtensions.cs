@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace PgnToFen
+namespace PgnToFenCore
 {
-    public static class IEnumerableExtensions
+    internal static class IEnumerableExtensions
     {
         public static IEnumerable<T> ExcludeWhere<T>(this IEnumerable<T> source, Func<T, bool> predicate) =>
             source.Except(source.Where(predicate));

@@ -1,4 +1,6 @@
-﻿namespace PgnToFen
+﻿using PgnToFenCore;
+
+namespace PgnToFen
 {
     public class Program
     {

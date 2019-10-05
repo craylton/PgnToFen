@@ -1,7 +1,7 @@
 ﻿using ilf.pgn;
 using ilf.pgn.Data;
 
-namespace PgnToFen
+namespace PgnToFenCore
 {
     public class PgnToFenConverter
     {
