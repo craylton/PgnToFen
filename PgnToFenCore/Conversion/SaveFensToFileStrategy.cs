@@ -5,18 +5,17 @@ using System.IO;
 
 using ChessMove = ChessDotNet.Move;
 
-namespace PgnToFenCore
+namespace PgnToFenCore.Conversion
 {
-    public class SaveToFileStrategy : IConversionStrategy
+    public class SaveFensToFileStrategy : IConversionStrategy
     {
         public string Filename { get; }
 
-        public SaveToFileStrategy(string filename) => Filename = filename;
+        public SaveFensToFileStrategy(string filename) => Filename = filename;
 
         public void ConvertAllFens(Game game)
         {
             IEnumerable<ChessMove> moves = game.GetAllMoves();
-
             var newGame = new ChessGame();
 
             using var file = new StreamWriter(Filename, true);

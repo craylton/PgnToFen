@@ -1,5 +1,6 @@
 ﻿using ilf.pgn;
 using ilf.pgn.Data;
+using PgnToFenCore.Conversion;
 
 namespace PgnToFenCore
 {

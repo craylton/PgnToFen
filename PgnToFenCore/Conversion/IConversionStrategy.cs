@@ -1,6 +1,6 @@
 ﻿using ilf.pgn.Data;
 
-namespace PgnToFenCore
+namespace PgnToFenCore.Conversion
 {
     public interface IConversionStrategy
     {

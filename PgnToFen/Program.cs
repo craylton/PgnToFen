@@ -1,4 +1,5 @@
 ﻿using PgnToFenCore;
+using PgnToFenCore.Conversion;
 
 namespace PgnToFen
 {
@@ -26,7 +27,7 @@ namespace PgnToFen
             }
 
             var converter = new PgnToFenConverter();
-            var conversionStrategy = new SaveToFileStrategy(parser.ParsedArguments.NewFilename);
+            var conversionStrategy = new SaveFensToFileStrategy(parser.ParsedArguments.NewFilename);
             converter.Convert(conversionStrategy, parser.ParsedArguments.SourceFilename);
         }
     }
