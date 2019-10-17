@@ -19,7 +19,7 @@ namespace PgnToFen
             {
                 fileCoordinator.PrepareFiles(parser.ParsedArguments);
             }
-            catch (InvalidArgsException ex)
+            catch (InvalidArgumentsException ex)
             {
                 System.Console.WriteLine("There was a problem preparing files:");
                 System.Console.WriteLine(ex.Message);

@@ -44,12 +44,6 @@ namespace PgnToFen
                 return false;
             }
 
-            if (ParsedArguments.SourceFilename is null)
-            {
-                Console.WriteLine("Please specify the filename of the PGN file with the --pgnfile flag.");
-                return false;
-            }
-
             return true;
         }
     }

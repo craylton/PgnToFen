@@ -7,11 +7,25 @@ namespace PgnToFen
     {
         public void PrepareFiles(ParsedArguments parsedArguments)
         {
-            if (!File.Exists(parsedArguments.SourceFilename))
+            ValidateSourceFilename(parsedArguments);
+            ValidateOutputFilename(parsedArguments);
+        }
+
+        private void ValidateSourceFilename(ParsedArguments parsedArguments)
+        {
+            if (parsedArguments.SourceFilename is null)
             {
-                throw new InvalidArgsException($"The file {parsedArguments.SourceFilename} could not be found");
+                parsedArguments.SourceFilename = GetSourceFilenameFromInput();
             }
 
+            if (!File.Exists(parsedArguments.SourceFilename))
+            {
+                throw new InvalidArgumentsException($"The file {parsedArguments.SourceFilename} could not be found");
+            }
+        }
+
+        private void ValidateOutputFilename(ParsedArguments parsedArguments)
+        {
             if (parsedArguments.NewFilename is null)
             {
                 parsedArguments.NewFilename = GetDefaultFenFileName(parsedArguments.SourceFilename);
@@ -19,7 +33,7 @@ namespace PgnToFen
 
             if (parsedArguments.SourceFilename == parsedArguments.NewFilename)
             {
-                throw new InvalidArgsException("Input PGN file and output file have the same name");
+                throw new InvalidArgumentsException("Input PGN file and output file have the same name");
             }
 
             if (File.Exists(parsedArguments.NewFilename))
@@ -30,9 +44,15 @@ namespace PgnToFen
                 }
                 else
                 {
-                    throw new InvalidArgsException($"{parsedArguments.NewFilename} already exists");
+                    throw new InvalidArgumentsException($"{parsedArguments.NewFilename} already exists");
                 }
             }
+        }
+
+        private string GetSourceFilenameFromInput()
+        {
+            Console.WriteLine("Please specify the name of the file containing the PGN");
+            return Console.ReadLine();
         }
 
         private bool ShouldOverwriteNewFile(string filename)
