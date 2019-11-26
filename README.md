@@ -50,7 +50,7 @@ var conversionStrategy = new AdvancedSaveFensToListStrategy();
 converter.Convert(conversionStrategy, "MyPgnFile.pgn");
 
 var decisivePositions = conversionStrategy.Positions
-    .Where(position => position.FinalResult != FinalGameResult.Draw;
+    .Where(position => position.FinalResult != FinalGameResult.Draw);
     
 foreach (var position in decisivePositions)
     Console.WriteLine(position.Fen);

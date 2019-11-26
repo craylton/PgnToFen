@@ -26,7 +26,8 @@ namespace PgnToFenCore.Conversion
             foreach (var move in moves)
             {
                 game.MakeMove(move, true);
-                Positions.Add(FenData.FromGameState(game, result));
+                var fenData = FenData.FromGameState(game, result);
+                Positions.Add(fenData);
             }
         }
     }
