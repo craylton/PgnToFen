@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace PgnToFenCore
 {
-    public static class ChessGameExtensions
+    internal static class ChessGameExtensions
     {
         public static bool IsTerminated(this ChessGame game) =>
             game.IsDraw() || game.IsCheckmated(Player.White) || game.IsCheckmated(Player.Black);

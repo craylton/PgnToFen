@@ -3,7 +3,7 @@ using ChessDotNet.Pieces;
 
 namespace PgnToFenCore
 {
-    public static class PieceExtensions
+    internal static class PieceExtensions
     {
         public static int GetPieceValue(this Piece piece) =>
             piece switch
