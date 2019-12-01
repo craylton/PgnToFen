@@ -23,15 +23,19 @@ namespace PgnToFenCore
         /// where Pawn=1, Knight=3, Bishop=3, Rook=5 and Queen=9.</summary>
         public int TotalMaterialOnBoard { get; }
 
+        /// <summary>Whether the side to move is currently in check.</summary>
+        public bool IsInCheck { get; }
+
         public FenData(
             string fen,
             int moveNumber,
             FinalGameResult finalResult,
             bool isWhiteToMove,
             bool isTerminated,
-            int totalMaterialOnBoard) =>
-            (Fen, MoveNumber, FinalResult, IsWhiteToMove, IsTerminated, TotalMaterialOnBoard) =
-            (fen, moveNumber, finalResult, isWhiteToMove, isTerminated, totalMaterialOnBoard);
+            int totalMaterialOnBoard,
+            bool isInCheck) =>
+            (Fen, MoveNumber, FinalResult, IsWhiteToMove, IsTerminated, TotalMaterialOnBoard, IsInCheck) =
+            (fen, moveNumber, finalResult, isWhiteToMove, isTerminated, totalMaterialOnBoard, isInCheck);
 
         public static FenData FromGameState(ChessGame game, FinalGameResult endResult) =>
             new FenData(
@@ -40,6 +44,7 @@ namespace PgnToFenCore
                 endResult,
                 game.WhoseTurn == Player.White,
                 game.IsTerminated(),
-                game.GetAmountOfMaterialOnBoard());
+                game.GetAmountOfMaterialOnBoard(),
+                game.IsInCheck(game.WhoseTurn));
     }
 }
