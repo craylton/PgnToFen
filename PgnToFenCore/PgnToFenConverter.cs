@@ -1,6 +1,7 @@
 ﻿using ilf.pgn;
 using ilf.pgn.Data;
 using PgnToFenCore.Conversion;
+using System;
 
 namespace PgnToFenCore
 {
@@ -10,6 +11,8 @@ namespace PgnToFenCore
         {
             var pgnFileReader = new PgnReader();
             Database gameDb = pgnFileReader.ReadFromFile(pgnFilename);
+
+            Console.WriteLine(gameDb.Games.Count + " games found");
 
             foreach (var game in gameDb.Games)
             {

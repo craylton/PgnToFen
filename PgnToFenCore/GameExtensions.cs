@@ -14,8 +14,10 @@ namespace PgnToFenCore
         {
             var rawPgn = game.ToString();
 
-            var pgnWithoutHeaders = rawPgn.RemovePgnHeaders();
-            return pgnWithoutHeaders[0..^4];
+            string pgnWithoutHeaders = rawPgn.RemovePgnHeaders();
+            pgnWithoutHeaders = pgnWithoutHeaders.RemoveComments();
+            pgnWithoutHeaders = pgnWithoutHeaders.CleanMoveNumbers();
+            return pgnWithoutHeaders.RemoveEndingMarker();
         }
     }
 }
