@@ -11,7 +11,7 @@ namespace PgnToFenCore
 
         public CleanPgn(string value) => Value = value;
 
-        public static implicit operator CleanPgn(string str) => new CleanPgn(str);
+        public static implicit operator CleanPgn(string str) => new(str);
 
         public IEnumerable<ChessMove> GetMoves()
         {

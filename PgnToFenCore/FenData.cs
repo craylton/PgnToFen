@@ -38,7 +38,7 @@ namespace PgnToFenCore
             (fen, moveNumber, finalResult, isWhiteToMove, isTerminated, totalMaterialOnBoard, isInCheck);
 
         public static FenData FromGameState(ChessGame game, FinalGameResult endResult) =>
-            new FenData(
+            new(
                 game.GetFen(),
                 game.FullMoveNumber,
                 endResult,

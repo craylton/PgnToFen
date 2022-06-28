@@ -8,7 +8,6 @@ namespace PgnToFen
         private static void Main(string[] args)
         {
             var parser = new ArgumentParser(args);
-            var fileCoordinator = new FileCoordinator();
 
             if (!parser.CanParseArguments())
             {
@@ -17,7 +16,7 @@ namespace PgnToFen
 
             try
             {
-                fileCoordinator.PrepareFiles(parser.ParsedArguments);
+                FileCoordinator.PrepareFiles(parser.ParsedArguments);
             }
             catch (InvalidArgumentsException ex)
             {
@@ -26,9 +25,8 @@ namespace PgnToFen
                 return;
             }
 
-            var converter = new PgnToFenConverter();
             var conversionStrategy = new SaveFensToFileStrategy(parser.ParsedArguments.NewFilename);
-            converter.Convert(conversionStrategy, parser.ParsedArguments.SourceFilename);
+            PgnToFenConverter.Convert(conversionStrategy, parser.ParsedArguments.SourceFilename);
         }
     }
 }

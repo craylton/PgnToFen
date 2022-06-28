@@ -5,13 +5,13 @@ namespace PgnToFen
 {
     public class FileCoordinator
     {
-        public void PrepareFiles(ParsedArguments parsedArguments)
+        public static void PrepareFiles(ParsedArguments parsedArguments)
         {
             ValidateSourceFilename(parsedArguments);
             ValidateOutputFilename(parsedArguments);
         }
 
-        private void ValidateSourceFilename(ParsedArguments parsedArguments)
+        private static void ValidateSourceFilename(ParsedArguments parsedArguments)
         {
             if (parsedArguments.SourceFilename is null)
             {
@@ -24,7 +24,7 @@ namespace PgnToFen
             }
         }
 
-        private void ValidateOutputFilename(ParsedArguments parsedArguments)
+        private static void ValidateOutputFilename(ParsedArguments parsedArguments)
         {
             if (parsedArguments.NewFilename is null)
             {
@@ -49,13 +49,13 @@ namespace PgnToFen
             }
         }
 
-        private string GetSourceFilenameFromInput()
+        private static string GetSourceFilenameFromInput()
         {
             Console.WriteLine("Please specify the name of the file containing the PGN");
             return Console.ReadLine();
         }
 
-        private bool ShouldOverwriteNewFile(string filename)
+        private static bool ShouldOverwriteNewFile(string filename)
         {
             Console.WriteLine($"{filename} already exists - do you want to overwrite? (y/n)");
 
@@ -69,7 +69,7 @@ namespace PgnToFen
             return shouldOverwrite.IsYesResponse();
         }
 
-        private string GetDefaultFenFileName(string sourceFilename) =>
+        private static string GetDefaultFenFileName(string sourceFilename) =>
             sourceFilename.ReplaceFileExtension("txt");
     }
 }
