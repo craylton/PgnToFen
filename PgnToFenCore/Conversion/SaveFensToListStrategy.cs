@@ -4,29 +4,28 @@ using System.Collections.Generic;
 
 using ChessMove = ChessDotNet.Move;
 
-namespace PgnToFenCore.Conversion
+namespace PgnToFenCore.Conversion;
+
+public class SaveFensToListStrategy : IConversionStrategy
 {
-    public class SaveFensToListStrategy : IConversionStrategy
+    public ICollection<string> Fens { get; } = new List<string>();
+
+    public void ConvertAllFens(Game game)
     {
-        public ICollection<string> Fens { get; } = new List<string>();
+        IEnumerable<ChessMove> moves = game.GetAllMoves();
+        var newGame = new ChessGame();
 
-        public void ConvertAllFens(Game game)
+        SaveAllFens(moves, newGame);
+    }
+
+    private void SaveAllFens(IEnumerable<ChessMove> moves, ChessGame game)
+    {
+        Fens.Add(game.GetFen());
+
+        foreach (var move in moves)
         {
-            IEnumerable<ChessMove> moves = game.GetAllMoves();
-            var newGame = new ChessGame();
-
-            SaveAllFens(moves, newGame);
-        }
-
-        private void SaveAllFens(IEnumerable<ChessMove> moves, ChessGame game)
-        {
+            game.MakeMove(move, true);
             Fens.Add(game.GetFen());
-
-            foreach (var move in moves)
-            {
-                game.MakeMove(move, true);
-                Fens.Add(game.GetFen());
-            }
         }
     }
 }

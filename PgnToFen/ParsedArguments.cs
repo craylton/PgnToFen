@@ -1,8 +1,7 @@
-﻿namespace PgnToFen
+﻿namespace PgnToFen;
+
+public class ParsedArguments
 {
-    public class ParsedArguments
-    {
-        public string SourceFilename { get; set; }
-        public string NewFilename { get; set; }
-    }
+    public string SourceFilename { get; set; }
+    public string NewFilename { get; set; }
 }

@@ -1,9 +1,8 @@
 ﻿using ilf.pgn.Data;
 
-namespace PgnToFenCore.Conversion
+namespace PgnToFenCore.Conversion;
+
+public interface IConversionStrategy
 {
-    public interface IConversionStrategy
-    {
-        void ConvertAllFens(Game game);
-    }
+    void ConvertAllFens(Game game);
 }

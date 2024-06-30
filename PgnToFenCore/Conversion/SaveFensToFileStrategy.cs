@@ -5,32 +5,29 @@ using System.IO;
 
 using ChessMove = ChessDotNet.Move;
 
-namespace PgnToFenCore.Conversion
+namespace PgnToFenCore.Conversion;
+
+public class SaveFensToFileStrategy(string filename) : IConversionStrategy
 {
-    public class SaveFensToFileStrategy : IConversionStrategy
+    public string Filename { get; } = filename;
+
+    public void ConvertAllFens(Game game)
     {
-        public string Filename { get; }
+        IEnumerable<ChessMove> moves = game.GetAllMoves();
+        var newGame = new ChessGame();
 
-        public SaveFensToFileStrategy(string filename) => Filename = filename;
+        using var file = new StreamWriter(Filename, true);
+        SaveAllFensToStream(moves, newGame, file);
+    }
 
-        public void ConvertAllFens(Game game)
+    private void SaveAllFensToStream(IEnumerable<ChessMove> moves, ChessGame game, StreamWriter stream)
+    {
+        stream.WriteLine(game.GetFen());
+
+        foreach (var move in moves)
         {
-            IEnumerable<ChessMove> moves = game.GetAllMoves();
-            var newGame = new ChessGame();
-
-            using var file = new StreamWriter(Filename, true);
-            SaveAllFensToStream(moves, newGame, file);
-        }
-
-        private void SaveAllFensToStream(IEnumerable<ChessMove> moves, ChessGame game, StreamWriter stream)
-        {
+            game.MakeMove(move, true);
             stream.WriteLine(game.GetFen());
-
-            foreach (var move in moves)
-            {
-                game.MakeMove(move, true);
-                stream.WriteLine(game.GetFen());
-            }
         }
     }
 }

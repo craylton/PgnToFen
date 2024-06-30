@@ -1,14 +1,13 @@
 ﻿using ilf.pgn.Data;
 
-namespace PgnToFenCore
+namespace PgnToFenCore;
+
+internal static class GameResultExtensions
 {
-    internal static class GameResultExtensions
+    public static FinalGameResult GetFinalResult(this GameResult gameResult) => gameResult switch
     {
-        public static FinalGameResult GetFinalResult(this GameResult gameResult) => gameResult switch
-        {
-            GameResult.White => FinalGameResult.WhiteWin,
-            GameResult.Black => FinalGameResult.BlackWin,
-            _ => FinalGameResult.Draw,
-        };
-    }
+        GameResult.White => FinalGameResult.WhiteWin,
+        GameResult.Black => FinalGameResult.BlackWin,
+        _ => FinalGameResult.Draw,
+    };
 }

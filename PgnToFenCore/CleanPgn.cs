@@ -3,22 +3,19 @@ using System.Collections.Generic;
 
 using ChessMove = ChessDotNet.Move;
 
-namespace PgnToFenCore
+namespace PgnToFenCore;
+
+internal class CleanPgn(string value)
 {
-    internal class CleanPgn
+    public string Value { get; } = value;
+
+    public static implicit operator CleanPgn(string str) => new(str);
+
+    public IEnumerable<ChessMove> GetMoves()
     {
-        public string Value { get; }
+        var pgnTextReader = new PgnReader<ChessGame>();
+        pgnTextReader.ReadPgnFromString(Value);
 
-        public CleanPgn(string value) => Value = value;
-
-        public static implicit operator CleanPgn(string str) => new(str);
-
-        public IEnumerable<ChessMove> GetMoves()
-        {
-            var pgnTextReader = new PgnReader<ChessGame>();
-            pgnTextReader.ReadPgnFromString(Value);
-
-            return pgnTextReader.Game.Moves;
-        }
+        return pgnTextReader.Game.Moves;
     }
 }

@@ -1,9 +1,8 @@
-﻿namespace PgnToFenCore
+﻿namespace PgnToFenCore;
+
+public enum FinalGameResult
 {
-    public enum FinalGameResult
-    {
-        WhiteWin,
-        BlackWin,
-        Draw,
-    }
+    WhiteWin,
+    BlackWin,
+    Draw,
 }
