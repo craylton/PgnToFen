@@ -47,17 +47,15 @@ PgnToFen.exe --pgnfile MyPgnFile.pgn --output MyFenFile.txt
 You can also use it as part of your own project. Once you've imported PgnToFen into your solution, you can use the snippet below to save FENs to a specific location:
 
 ```csharp
-var converter = new PgnToFenConverter();
 var conversionStrategy = new SaveFensToFileStrategy("MyFenFile.txt");
-converter.Convert(conversionStrategy, "MyPgnFile.pgn");
+PgnToFenConverter.Convert(conversionStrategy, "MyPgnFile.pgn");
 ```
 
 There are a couple of other 'strategies' you can use to do different things with the FENs. For example, this snippet will put all FENs into a `List<string>`:
 
 ```csharp
-var converter = new PgnToFenConverter();
 var conversionStrategy = new SaveFensToListStrategy();
-converter.Convert(conversionStrategy, "MyPgnFile.pgn");
+PgnToFenConverter.Convert(conversionStrategy, "MyPgnFile.pgn");
 
 foreach (var fen in conversionStrategy.Fens)
     Console.WriteLine(fen);
@@ -66,9 +64,8 @@ foreach (var fen in conversionStrategy.Fens)
 There is also an `AdvancedSaveFensToListStrategy`, which is similar to the above, but instead of storing just the FEN, it will also store some metadata, such as who won the game in the end.
 
 ```csharp
-var converter = new PgnToFenConverter();
 var conversionStrategy = new AdvancedSaveFensToListStrategy();
-converter.Convert(conversionStrategy, "MyPgnFile.pgn");
+PgnToFenConverter.Convert(conversionStrategy, "MyPgnFile.pgn");
 
 var decisivePositions = conversionStrategy.Positions
     .Where(position => position.FinalResult != FinalGameResult.Draw);
